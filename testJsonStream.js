@@ -16,7 +16,7 @@
   var JSONStream = require('JSONStream')
   var es = require('event-stream')
   var fs = require('fs');
-  var filename = '/home/calude/sandbox/stripe-sandbox/resources/example.json';
+  var filename = __dirname + '/resources/example.json';
   var readStream = fs.createReadStream(filename);
   var counter = 0;
 
