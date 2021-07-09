@@ -1,9 +1,7 @@
 (async () => {
 
-  var moment = require('moment')
-  var Decimal = require('decimal.js');
-
-  
+  //var moment = require('moment')
+  var moment =require('moment-timezone');
 
   const aDate = new Date();
   const theTime = aDate.getTime();
@@ -16,13 +14,13 @@
   console.log(`unixDate: ${unixDate}`);
   console.log(`aSecondDate: ${aSecondDate}`);
   console.log(`theSecondTime: ${theSecondTime}`);
+
+  var london    = moment.tz(aDate, "Europe/London");
+  var newYork    = moment.tz(aDate, "America/New_York");
+  var losAngeles    = moment.tz(aDate, "America/Los_Angeles");
+
+  console.log(`london: ${london}`);
+  console.log(`newYork: ${newYork}`);
+  console.log(`losAngeles: ${losAngeles}`);
   
-  
-  const x = new Decimal(new Date().getTime()).div(1000).trunc().toNumber()
-  console.log(`x: ${x}`);
-  
-
-
-
-
 })();

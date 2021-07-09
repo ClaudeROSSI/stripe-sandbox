@@ -14,6 +14,7 @@
     "decimal.js": "^10.2.1",
     "dotenv": "^8.0.0",
     "event-stream": "^4.0.1",
+    "ip": "^1.1.5",
     "locale": "^0.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",

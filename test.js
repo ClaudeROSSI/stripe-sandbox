@@ -4,10 +4,14 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
   console.log('Hello!');
   const customers = await stripe.customers.list({
     limit: 1,
-    email: 'claude.rossi@sap.com'
+    // email: 'claude.rossi@gmail.com'
+    email: 'basic-claude.rossi@sap.com'
   });
   console.log(customers);
-  const paymentMethods = await stripe.paymentMethods.list({
+  const customer = await stripe.customers.retrieve(customers.data[0].id);
+  console.log(customer);
+  console.log("XXXXX" + customer.preferred_locales[0]);
+const paymentMethods = await stripe.paymentMethods.list({
     customer: customers.data[0].id,
     type: 'card',
   });
