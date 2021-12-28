@@ -3,7 +3,7 @@
 
   //var moment = require('moment')
   var moment =require('moment-timezone');
-
+  
   const today = new Date();
   console.log(`today: ${today}`);
 
@@ -56,5 +56,21 @@
 
   console.log(getDayText(0));
   console.log(getDayText(7));
+
+  console.log(1%7);
+  console.log(7%7);
+  console.log(0%7);
+
+  moment.locale("en-AU");
+
+  var ld = moment.localeData();
+  console.log(ld.longDateFormat('LT'));
+  console.log(ld.longDateFormat('LL'));
+
+  console.log(moment().toLocaleString());
+  console.log(moment().format("LT"));
+  console.log(moment().format("LL"));
+
+ 
 
 })();

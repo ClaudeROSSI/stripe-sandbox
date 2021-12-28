@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    
 
 
         {
@@ -34,6 +35,26 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/testDecimals.js"
+        },
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "test moment days",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/testMomentDayOfWeek.js"
+        },
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "test moment isBetween",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/testMomentIsBetween.js"
         }
     ]
 }
