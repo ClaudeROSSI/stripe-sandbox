@@ -55,6 +55,29 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/testMomentIsBetween.js"
-        }
+        },
+
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "testMomentTimeRange",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/testMomentTimeRange.js"
+        },
+
+
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "testDecimal3",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/testDecimal3.js"
+        }        
     ]
 }
