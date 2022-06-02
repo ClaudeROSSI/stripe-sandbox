@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
     
 
 
@@ -79,5 +80,17 @@
             ],
             "program": "${workspaceFolder}/testDecimal3.js"
         }        
+
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "testInvoice",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/testInvoice.js"
+        },
+
     ]
 }

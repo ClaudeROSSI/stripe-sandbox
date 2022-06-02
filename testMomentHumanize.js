@@ -41,10 +41,12 @@
   var momentDurationFormatSetup = require("moment-duration-format");
   momentDurationFormatSetup(moment);
 
+  moment.locale('fr-fr');
+
   showDurations({ trim: false });
   showDurations({ trim: true });
   showDurations({ trim: 'small' });
-  showDurations({ trim: 'small', forceLength: true, useToLocaleString: true });
+  showDurations({ trim: 'small', forceLength: true, useToLocaleString: false, userLocale: 'fr-fr' });
   // showDurations({ trim: 'large' });
   // showDurations({ trim: 'mid' });
   // showDurations({ trim: 'final' });
