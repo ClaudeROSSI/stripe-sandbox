@@ -79,7 +79,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/testDecimal3.js"
-        }        
+        },
 
 
         {
@@ -90,6 +90,18 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/testInvoice.js"
+        },
+
+
+
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "billingPlatformFee",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/billingPlatformFee.js"
         },
 
     ]
