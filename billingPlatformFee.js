@@ -38,65 +38,55 @@ const { forEach } = require("lodash");
         cpoIDs.forEach( cpoID => {
 
             const cpoSessions = sessions.filter(session => session.cpoID === cpoID);
-            let amountToTransfer = 0;
-            let commissionHT = 0; 
-            let commissionTVA = 0;
-            let commissionTTC = 0 ; 
+            let cumulatedAmount = 0;
+            let cumulatedCommission = 0; 
 
             cpoSessions.forEach(session => {
-                if ( context.inclusive ) {
-                    session.amountHT = session.amount / ( 1 + context.taxRate / 100 );
-                } else {
-                    session.amountHT = session.amount;
-                }
-                const commission = context.platformFlatFee + session.amountHT * context.platformCommissionRate / 100;
-                session.commissionHT = commission;
-                session.commissionTVA = commission * platformCommissionRate / 100;
-                session.commissionTTC = commission * (1 + platformCommissionRate / 100);
-
-                session.amountToTransfer = (session.amountHT - session.commissionTTC);
-
-                commissionTVA += session.commissionTVA;
-                commissionTTC += session.commissionTTC;
-                amountToTransfer += session.amountToTransfer;
+                // ACHTUNG - session amount may include 4 dimensions !!! - but we have a single tax rate for now :(
+                session.commission = context.platformFlatFee + session.amount * context.platformCommissionRate / 100;
+                cumulatedAmount += session.amount;
+                cumulatedCommission += session.commission;
             });
 
             transfers.push( { 
                 cpoID,
-                amountToTransfer,
-                commissionHT,
-                commissionTVA,
-                commissionTTC,
-
+                amount: cumulatedAmount,
+                commission: cumulatedCommission,
             })
         });
         
-        let totalTransferred = 0;
-        let totalTvaCollectee = 0;
-        let totalCommissionTTC = 0;
+        let cumulatedAmount = 0;
+        let cumulatedCommission = 0;
         transfers.forEach(transfer => {
-            totalTransferred += transfer.amountToTransfer;
-            totalTvaCollectee += transfer.commissionTVA;
-            totalCommissionTTC += transfer.commissionTTC;
-            console.log("Amount for "+ transfer.cpoID + " : " + transfer.amountToTransfer + " - Commission: " + transfer.commissionTTC + " - TVA collectée: " + transfer.commissionTVA);
+            cumulatedAmount += transfer.amount;
+            cumulatedCommission += transfer.commission;
+            console.log("Amount for "+ transfer.cpoID + " : " + transfer.amount + " - Commission: " + transfer.commission);
         }) 
-        
+
+        const taxesOnCommission = cumulatedCommission * context.platformTaxRate / 100;
+        const totalCommission = cumulatedCommission + taxesOnCommission;
+
+        // ACHTUNG - cumulatedAmount should never include taxes - Echec et mat!
+        const totalTransferred = cumulatedAmount - totalCommission;
         console.log("------------------------------------------------");
         const payout = totalTTC - stripeCommission;
         console.log("Payout from STRIPE : " + payout);
         console.log("TVA collectée : " + totalTVA);
         console.log("TVA déductible : " + 0);
         console.log("------------------------------------------------");
-        console.log("Montant versé : " + totalTransferred);
-        console.log("Commission TTC : " + totalCommissionTTC);
-        console.log("TVA collectée : " + totalTvaCollectee);
+        console.log("Montant Total : " + cumulatedAmount);
+        console.log("Commission: " + cumulatedCommission);
+        console.log("TVA on commission : " + taxesOnCommission);
+        console.log("------------------------------------------------");
+        console.log("Montant Transferé : " + totalTransferred);
+        console.log("Commission with taxes : " + totalCommission);
         console.log("------------------------------------------------");
         const CA = payout - totalTransferred;
         console.log("Chiffre d'Affaire : " + CA);
         console.log("STRIPE FEE :  "+ stripeCommission );
-        console.log("Platform FEE : " + totalCommissionTTC);
-        const benefice  = CA - totalTVA - totalTvaCollectee;
-        console.log("Benefice : " + benefice);
+        console.log("Platform FEE : " + totalCommission);
+        const net  = CA - totalTVA - taxesOnCommission;
+        console.log("NET : " + net);
         console.log("------------------------------------------------");
 
     }
@@ -128,7 +118,7 @@ const { forEach } = require("lodash");
 
     compute(sessions, cpoIDs, {
         taxRate, 
-        inclusive: false,
+        inclusive: true,
         stripeFlatFee,
         stripeCommissionRate,
         platformFlatFee,

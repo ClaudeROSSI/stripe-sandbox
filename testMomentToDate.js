@@ -36,5 +36,15 @@
   console.log(`london: ${london}`);
   console.log(`newYork: ${newYork}`);
   console.log(`losAngeles: ${losAngeles}`);
-  
+
+  moment.locale("es-ES");
+
+  console.log('Moment Locale as been set to: ' + moment.locale());
+  console.log('List of loaded locales: ' + moment.locales());
+  console.log('Current format -  Date: ' + moment().format('LL') + ' - time: ' + moment().format('LT'));
+  console.log(`24 hour? : `+(new Date().toLocaleString().match(/am|pm/i)));
+  console.log(`24 hour? : `+!(new Date().toLocaleString().match(/am|pm/i)));
+  console.log('test AM/PM - ' + moment.localeData().longDateFormat('lll'));
+  console.log('test AM/PM - ' + moment.localeData().longDateFormat('lll').match(/A/i));
+
 })();
